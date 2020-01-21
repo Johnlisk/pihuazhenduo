@@ -125,3 +125,5 @@ dmypy.json
 .pyre/
 
 log
+tornado-logs
+*/tornado-logs

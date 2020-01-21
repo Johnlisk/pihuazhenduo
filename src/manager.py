@@ -1,5 +1,6 @@
 import tornado.web
 import tornado.ioloop
+import tornado.log as tlog
 
 import logging
 import app
@@ -13,14 +14,13 @@ log_config = {
 
 if __name__=="__main__":
     logger = logging.getLogger(name="tornado-logs")
+    logger.setLevel('DEBUG')
     consolehandler=logging.StreamHandler()
     filehandler=logging.FileHandler(filename="tornado-logs")
-    consolehandler.setFormatter("simple")
-    filehandler.setFormatter("simple")
     logger.addHandler(consolehandler)
     logger.addHandler(filehandler)
     logger.info("---------------PHZD backend start----------------")
-    application=tornado.web.Application([(r"/",app.Mainhandler)])
+    application=tornado.web.Application([(r"/",app.Mainhandler)],debug=True)
     application.listen(8888)
     tornado.ioloop.IOLoop.current().start()
     logger.info("---------------PHZD backend started----------------")
