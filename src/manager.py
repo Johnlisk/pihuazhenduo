@@ -4,6 +4,7 @@ import tornado.log as tlog
 
 import logging
 import app
+import configparser
 
 log_config = {
     "logfilename": "tornado-logs",  # log 名称
@@ -13,6 +14,10 @@ log_config = {
 }
 
 if __name__=="__main__":
+    conf=configparser.ConfigParser()
+    conf.read("config.conf")
+    dbhost=conf.get("database","dbhost")
+    print(f"dbhost:{dbhost}")
     logger = logging.getLogger(name="tornado-logs")
     logger.setLevel('DEBUG')
     consolehandler=logging.StreamHandler()
@@ -20,7 +25,8 @@ if __name__=="__main__":
     logger.addHandler(consolehandler)
     logger.addHandler(filehandler)
     logger.info("---------------PHZD backend start----------------")
-    application=tornado.web.Application([(r"/",app.Mainhandler)],debug=True)
+    application=tornado.web.Application([(r"/",app.Mainhandler),
+                                         (r"/blog/", app.BlogMainHandler)],debug=True)
     application.listen(8888)
     tornado.ioloop.IOLoop.current().start()
     logger.info("---------------PHZD backend started----------------")
