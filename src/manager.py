@@ -27,6 +27,6 @@ if __name__=="__main__":
     logger.info("---------------PHZD backend start----------------")
     application=tornado.web.Application([(r"/",app.Mainhandler),
                                          (r"/blog/", app.BlogMainHandler)],debug=True)
-    application.listen(8888)
+    application.listen(port=8888,address="0.0.0.0")
     tornado.ioloop.IOLoop.current().start()
     logger.info("---------------PHZD backend started----------------")

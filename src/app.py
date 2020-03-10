@@ -2,8 +2,21 @@ import tornado.web
 import logging
 import datetime
 
+class BaseHandler(tornado.web.RequestHandler):
+    def set_default_headers(self):
+        self.set_header("Access-Control-Allow-Origin", "*")  # 这个地方可以写域名
+        self.set_header("Access-Control-Allow-Headers", "*")
+        self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
 
-class Mainhandler(tornado.web.RequestHandler):
+    # 定义一个响应OPTIONS 请求，不用作任务处理
+    def options(self):
+        # no body
+        self.set_default_headers()
+        self.set_status(204)
+        self.finish()
+
+
+class Mainhandler(BaseHandler):
     def get(self):
         logger = logging.getLogger(name="tornado-logs")
         logger.info("damn")
@@ -15,7 +28,7 @@ class Mainhandler(tornado.web.RequestHandler):
         self.render("templates/main.html", resultdict=resdict)
 
 
-class BlogMainHandler(tornado.web.RequestHandler):
+class BlogMainHandler(BaseHandler):
     def get(self):
         logger = logging.getLogger(name="tornado-logs")
         logger.info("damn")
@@ -30,8 +43,8 @@ class BlogMainHandler(tornado.web.RequestHandler):
                     "thumbnum": 99,
                     "thumbed": 1,
                     "user": "jaderabbit",
-                    "simplecontext":"这是一个不一般的故事。。。",
-                    "tags":[{"tagid":1,"tag":"生活"},{"tagid":2,"tag":"感想"}]
+                    "simplecontext": "这是一个不一般的故事。。。",
+                    "tags": [{"tagid": 1, "tag": "生活"}, {"tagid": 2, "tag": "感想"}]
                 }, {
                     "articleid": 2,
                     "title": "asdf",
@@ -39,8 +52,8 @@ class BlogMainHandler(tornado.web.RequestHandler):
                     "thumbnum": 99,
                     "thumbed": 1,
                     "user": "jaderabbit",
-                    "simplecontext":"这是一个不一般的故事。。。",
-                    "tags":[{"tagid":1,"tag":"生活"},{"tagid":2,"tag":"感想"}]
+                    "simplecontext": "这是一个不一般的故事。。。",
+                    "tags": [{"tagid": 1, "tag": "生活"}, {"tagid": 2, "tag": "感想"}]
                 }, {
                     "articleid": 3,
                     "title": "zxcv",
@@ -48,15 +61,15 @@ class BlogMainHandler(tornado.web.RequestHandler):
                     "thumbnum": 99,
                     "thumbed": 1,
                     "user": "jaderabbit",
-                    "simplecontext":"这是一个不一般的故事。。。",
-                    "tags":[{"tagid":1,"tag":"生活"},{"tagid":2,"tag":"感想"}]
+                    "simplecontext": "这是一个不一般的故事。。。",
+                    "tags": [{"tagid": 1, "tag": "生活"}, {"tagid": 2, "tag": "感想"}]
                 }
             ]
         }
-        self.render("templates/bloglist.html", resultdict=resdict)
+        self.render("templates/bloglist/index.html", resultdict=resdict)
 
 
-class BlogDetailHandler(tornado.web.RequestHandler):
+class BlogDetailHandler(BaseHandler):
     def get(self):
         logger = logging.getLogger(name="tornado-logs")
         logger.info("blogdetail")
