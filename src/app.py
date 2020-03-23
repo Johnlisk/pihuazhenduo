@@ -99,11 +99,14 @@ class BlogDetailHandler(BaseHandler):
         # article = self.request.query
         articleid=self.get_query_argument('articleid')
         logger.info(articleid)
+        titledict={1:"奤猫正传",2:"一名剧本杀瘾君子的自述",
+                   3:"(记录性转载)工作迷思：游戏文本创作中的七十二处女难题",
+                   4:"我的一个与众不同的女同学",5:"平衡"}
         with open(f"static/articles/{articleid}.txt",'r') as f:
             lines=f.readlines()
             resdict = {
-                "articleid": 1,
-                "title": "qwer",
+                "articleid": articleid,
+                "title": titledict[articleid],
                 "readnum": "1000",
                 "thumbnum": 99,
                 "thumbed": 1,
