@@ -26,7 +26,8 @@ if __name__=="__main__":
     logger.addHandler(filehandler)
     logger.info("---------------PHZD backend start----------------")
     application=tornado.web.Application([(r"/",app.Mainhandler),
-                                         (r"/blog/", app.BlogMainHandler)],debug=True)
+                                         (r"/blog/", app.BlogMainHandler),
+                                         (r"/blogdetail/", app.BlogDetailHandler)],debug=True)
     application.listen(port=8888,address="0.0.0.0")
     tornado.ioloop.IOLoop.current().start()
     logger.info("---------------PHZD backend started----------------")

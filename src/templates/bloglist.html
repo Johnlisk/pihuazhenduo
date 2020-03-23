@@ -25,11 +25,14 @@
 <body>
 {% include "head.html"%}
 {%for blog in resultdict['bloglist']%}
-<h2>{{blog['title']}}</h2>
+<h2><a href="http://127.0.0.1:8888/blogdetail/?articleid={{blog['articleid']}}">{{blog['title']}}</a></h2>
 <div>{{blog['simplecontext']}}</div>
+<div>{{blog['time']}}</div>
 <div>阅读:{{blog['readnum']}}</div>
 <div>点赞：{{blog['thumbnum']}}</div>
 {%end%}
+<div> <a></a>   </div>
+<div>  <a></a>  </div>
 {% include "foot.html"%}
 </body>
 </html>
