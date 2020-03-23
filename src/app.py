@@ -106,7 +106,7 @@ class BlogDetailHandler(BaseHandler):
             lines=f.readlines()
             resdict = {
                 "articleid": articleid,
-                "title": titledict[articleid],
+                "title": titledict[int(articleid)],
                 "readnum": "1000",
                 "thumbnum": 99,
                 "thumbed": 1,
