@@ -1,0 +1,75 @@
+需要的工具：xlwt（用于生成、写入.xls文件)、StringIO
+codes:
+===============================
+models.py:
+#在相应的model下：
+def receipts_export(self):
+        if self.id:
+            return u'<a href="%s">%s</a>' % (
+                reverse('receipt_export', args=(self.id, )),
+                _("Export Receipts")
+            )
+        else:
+            return u'Not present'
+    receipts_export.allow_tags = True
+    receipts_export.short_description = _('Export')
+
+urls.py:
+
+url(r'^admin/order/export/(?P<client_id>\d+)/',
+    login_required(client_views.OrderExportHandler.as_view()),
+    name='order_export'),
+
+views.py:
+
+import xlwt
+import StringIO
+from core.models import order
+
+class ReceiptExportHandler(View):
+    def get(self, client_id):
+        try:
+            client = Client.objects.get(pk=client_id)
+        except Client.DoesNotExist:
+            raise Http404
+        self.initialize()#创建表格文件
+        headers = ['id', '产品名', '金额（元）']
+        self.write_row(headers) #此处写入表头
+        for o in order.objects.filter().order_by('-purchase_date'):
+            self.write_row(self.make_row(o))
+
+        response = self.make_response()
+        response['Content-Disposition'] = 'attachment; filename=%s.xls' % (client.name.encode('utf-8'), )
+        return response
+
+    def initialize(self):
+        self.wb = xlwt.Workbook(encoding='utf-8')
+        self.ws = self.wb.add_sheet('订单列表')
+        self.row = 0
+
+    def make_row(self, order):
+        id = order.id
+        name = order.name
+        price = order.price
+
+    def write_row(self, content):
+        for i in range(0, len(content)):
+            self.ws.write(self.row, i, content[i])
+        self.row += 1
+
+    def make_response(self):
+        s = StringIO.StringIO()
+        self.wb.save(s)
+        s.seek(0)
+
+        response = HttpResponse(
+            s.read(),
+            content_type='application/octet-stream',
+        )
+        return response
+
+===============================
+
+tips:
+xlwt是xlrd的兄弟，用于写入excel文件
+xlwt只能写入.xls，不能写入.xlsx，所以写多了会造成溢出错误，量稍大就并不是很理想

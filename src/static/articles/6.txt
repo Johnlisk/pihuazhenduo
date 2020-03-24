@@ -1,0 +1,70 @@
+最近在写一个日历类的程序，类似于win7/8自带的便签这类程序 是平时放在桌面上用的，所以带着边框肯定很突兀而且不能让它定在那 毕竟只设置FromBorderStyle它会钉在那，所以必须要移动~
+
+去掉边框的最小化和关闭设置只需要添加button并设定button的功能为设置最小化关闭就好
+
+但是实现窗体的移动需要进行一系列的设定
+
+翻阅了一下资料有需要改program.cs的，也有重新画窗体的但是发现窗体的方法有mousedown mousemove和mouseup三个，分别是鼠标点下 移动 抬起的行为
+
+但是必须相关联否则会出现鼠标经过窗体就随着移动的方法这肯定是不行的
+
+所以设定一个bool变量 leftflag，来确定鼠标左键是否已经点下去了
+
+再定义一个鼠标所在XY点的类 Point mouseoff，代表鼠标所在点
+
+之后便是三个事件首先是mousedown，因为是鼠标拖动所以是
+
+privatevoid Mainform_MouseDown(object sender, MouseEventArgs e)
+
+MouseEventArgs监听鼠标的事件，
+
+MouseDown只是说鼠标点下去还要确定是不是左键
+
+所以用一个if  if (e.Button ==MouseButtons.Left)      
+
+如果是左键就执行这个if不用写else毕竟没别的是什么当然要加右键菜单另说
+
+既然是左键就把mouseoff实例一个，mouseoff =newPoint(-e.X, -e.Y);获取鼠标点下的位置，之后leftflag=true说明现在在拖动的是左键
+
+然后就要开始动了~同样是MouseEventArgse
+
+左键拖动在点击的过程中已经确定了是左键所以if（leftflag）
+
+新定义一个point对象，mouseset作为鼠标的当前位置取得初始值当然是Control.MousePosition，鼠标的当前位置然后就是设置mouseset的平移量offset为mouseoff.x和mouseoff.y，即鼠标的当前位置 最后设定Location=mouseset 窗口就到了指定位置
+
+在最后是MouseUp 无非就是取消点击的过程 同样是leftflag 抬起时leftflag=false就好
+
+最终全部代码如下：
+
+=========================================
+privatevoid Mainform_MouseDown(object sender MouseEventArgs e)
+{
+    if (e.Button == MouseButtons.Left)
+    {
+        mouseoff = newPoint(-e.X,-e.Y);
+        leftflag=true
+    }
+}
+
+privatevoid Mainform_MouseMove(object sender MouseEventArgs e)
+{
+    if (leftflag)
+    {
+        Point nouseset=Control.MousePosition;
+        mouseset.Offset(mouseoff.X,mouseoff.Y);
+        Location=mouseset;
+    }
+}
+
+privatevoid Mainform_Mouseup(object sender MouseEventArgs e)
+{
+    if (leftflag)
+    {
+        leftflag=false
+    }
+}
+
+=========================================
+
+
+另外估计是我比较水吧,一开始直接写事件却没用。之后在设计窗口的属性窗口点下事件，才发现定义的正确方法--还要连接一下

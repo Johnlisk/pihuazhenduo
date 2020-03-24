@@ -1,0 +1,21 @@
+这段时间一直在使用NoesisGUI，这是一种使用Xaml作为界面语言的UnityUI，前端界面开发方式与WPF无异，使用不难。缺点是官方的demo给的不是很足，并且文档严重不全。并且不能使用类似wpf的按钮事件那样的监听事件进行触发，必须用数据绑定方法。
+
+创建一个NoesisGUI项目的流程：
+
+1、在Blend里创建一个WPF项目。
+
+2、在项目根目录创建Assets文件夹。
+
+3、用Unity打开这个项目，导入NoesisGUI的自定义Package。（试用版需要发邮箱申请，详情见http://www.noesisengine.com/）
+
+4、在Blend里，Assets下创建存放Xaml用的文件夹，比如“Tutorials”。
+
+5、在Tutorials下创建一个UserControl文件，在Xaml里删除x:class属性（非常重要），也可以把.xaml.cs删掉，不过这个无所谓，添加相应的方法肯定也要相应的C#文件。不过要额外添加当然只能在Unity里添加。
+
+6、在Unity里添加一个scene，然后给Main Camera的Inspector添加一个Noesis GUI Panel，如果你的配置没有问题的话，属性界面应该包含Xaml、Style等项。
+
+7、把你之前的xaml拖动到main camera的Xaml一栏，就完成了NoesisGUI的添加。然后你就可以用Blend去编辑这个UI了。
+
+在Blend里编辑和实际运行状况是有相当差距的，详情参见官方demo。
+
+但是很多WPF界面上的属性，以及效果，NoesisGUI是完全支持的，但是引用的库不一样（引用的是Noesis自己的库）就像最早的mono，导致偶尔会在不同的地方写的界面相关的C#代码会报不同的错（哪怕并没错），以及引用冲突。

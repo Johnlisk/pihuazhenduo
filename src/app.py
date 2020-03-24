@@ -2,6 +2,7 @@ import tornado.web
 import logging
 import datetime
 
+
 class BaseHandler(tornado.web.RequestHandler):
     def set_default_headers(self):
         self.set_header("Access-Control-Allow-Origin", "*")  # 这个地方可以写域名
@@ -42,7 +43,7 @@ class BlogMainHandler(BaseHandler):
                     "readnum": "1000",
                     "thumbnum": 99,
                     "thumbed": 1,
-                    "time":"2019-03-18",
+                    "time": "2019-03-18",
                     "user": "jaderabbit",
                     "simplecontext": "奤，字如其字，大脸猫。",
                     "tags": [{"tagid": 1, "tag": "生活"}, {"tagid": 2, "tag": "感想"}]
@@ -86,6 +87,41 @@ class BlogMainHandler(BaseHandler):
                     "user": "jaderabbit",
                     "simplecontext": "",
                     "tags": [{"tagid": 1, "tag": "生活"}, {"tagid": 2, "tag": "感想"}]
+                },
+                {
+                    "articleid": 6,
+                    "title": "C# winform中无边框窗体的移动",
+                    "readnum": "1000",
+                    "thumbnum": 99,
+                    "thumbed": 1,
+                    "time": "2013-08-25",
+                    "user": "jaderabbit",
+                    "simplecontext": "",
+                    "tags": [{"tagid": 1, "tag": "生活"}, {"tagid": 2, "tag": "感想"}]
+                }
+                ,
+                {
+                    "articleid": 7,
+                    "title": "NoesisGUI入门及初步使用感想",
+                    "readnum": "1000",
+                    "thumbnum": 99,
+                    "thumbed": 1,
+                    "time": "2019-04-23",
+                    "user": "jaderabbit",
+                    "simplecontext": "这是一种使用Xaml作为界面语言的UnityUI，前端界面开发方式与WPF无异",
+                    "tags": [{"tagid": 1, "tag": "生活"}, {"tagid": 2, "tag": "感想"}]
+                }
+                ,
+                {
+                    "articleid": 8,
+                    "title": "使用xlwt导出django admin中查看的数据",
+                    "readnum": "1000",
+                    "thumbnum": 99,
+                    "thumbed": 1,
+                    "time": "2019-04-23",
+                    "user": "jaderabbit",
+                    "simplecontext": "使用django的admin界面导出数据，比如指定产品的订单集合，使用xlwt配合orm可以轻松做到",
+                    "tags": [{"tagid": 1, "tag": "生活"}, {"tagid": 2, "tag": "感想"}]
                 }
             ]
         }
@@ -97,13 +133,13 @@ class BlogDetailHandler(BaseHandler):
         logger = logging.getLogger(name="tornado-logs")
         logger.info("blogdetail")
         # article = self.request.query
-        articleid=self.get_query_argument('articleid')
+        articleid = self.get_query_argument('articleid')
         logger.info(articleid)
-        titledict={1:"奤猫正传",2:"一名剧本杀瘾君子的自述",
-                   3:"(记录性转载)工作迷思：游戏文本创作中的七十二处女难题",
-                   4:"我的一个与众不同的女同学",5:"平衡"}
-        with open(f"static/articles/{articleid}.txt",'r') as f:
-            lines=f.readlines()
+        titledict = {1: "奤猫正传", 2: "一名剧本杀瘾君子的自述",
+                     3: "(记录性转载)工作迷思：游戏文本创作中的七十二处女难题",
+                     4: "我的一个与众不同的女同学", 5: "平衡"}
+        with open(f"static/articles/{articleid}.txt", 'r') as f:
+            lines = f.readlines()
             resdict = {
                 "articleid": articleid,
                 "title": titledict[int(articleid)],

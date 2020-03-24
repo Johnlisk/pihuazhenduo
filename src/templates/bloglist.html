@@ -11,9 +11,9 @@
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-<!--    <link rel="stylesheet" href="/static/assets/css/style.css">-->
+    <!--    <link rel="stylesheet" href="/static/assets/css/style.css">-->
 
-<!--    <link rel="stylesheet" href="http://39.98.149.182:8001/assets/css/style.css">-->
+    <!--    <link rel="stylesheet" href="http://39.98.149.182:8001/assets/css/style.css">-->
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
@@ -24,15 +24,21 @@
 </head>
 <body>
 {% include "head.html"%}
-{%for blog in resultdict['bloglist']%}
-<h2><a href="http://www.pihuazhenduo.com/blog/detail/?articleid={{blog['articleid']}}">{{blog['title']}}</a></h2>
-<div>{{blog['simplecontext']}}</div>
-<div>{{blog['time']}}</div>
-<div>阅读:{{blog['readnum']}}</div>
-<div>点赞：{{blog['thumbnum']}}</div>
-{%end%}
-<div> <a></a>   </div>
-<div>  <a></a>  </div>
+<div style="margin: 0 auto;width: 600px">
+    {%for blog in resultdict['bloglist']%}
+    <div style="text-align: left;outline: #909498">
+        <h2><a href="http://www.pihuazhenduo.com/blog/detail/?articleid={{blog['articleid']}}">{{blog['title']}}</a>
+        </h2>
+        <div>{{blog['time']}}</div>
+        <div>{{blog['simplecontext']}}</div>
+
+<!--        <div>阅读:{{blog['readnum']}}</div>-->
+<!--        <div>点赞：{{blog['thumbnum']}}</div>-->
+    </div>
+    {%end%}
+</div>
+<div><a></a></div>
+<div><a></a></div>
 {% include "foot.html"%}
 </body>
 </html>
