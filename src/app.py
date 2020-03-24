@@ -137,7 +137,10 @@ class BlogDetailHandler(BaseHandler):
         logger.info(articleid)
         titledict = {1: "奤猫正传", 2: "一名剧本杀瘾君子的自述",
                      3: "(记录性转载)工作迷思：游戏文本创作中的七十二处女难题",
-                     4: "我的一个与众不同的女同学", 5: "平衡"}
+                     4: "我的一个与众不同的女同学", 5: "平衡",
+                     6:"C# winform中无边框窗体的移动",
+                     7:"NoesisGUI入门及初步使用感想",
+                     8:"使用xlwt导出django admin中查看的数据"}
         with open(f"static/articles/{articleid}.txt", 'r') as f:
             lines = f.readlines()
             resdict = {
