@@ -2,8 +2,23 @@ import asyncio
 import aiomysql
 import logging; logging.basicConfig(level=logging.INFO)
 
+# 此处添加配置
+db_conf = {
+	"host": "localhost",
+	"port": 3306,
+	"user": "root",
+	"password": "wrq0729",
+	"database": "",
+	"charset": "utf-8",
+	"autocommit": True,
+	"maxsize": 10,
+	"minsize": 1
+}
+
 async def create_pool(loop, **kw):
 	global __pool
+	#使用单独配置的情况，使用这种配置的情况下可以不用kw参数，最终目的是保存配置文件在单独的文件方便部署和维护
+	__pool = await aiomysql.create_pool(**db_conf)
 	__pool = await aiomysql.create_pool(
 		host = kw.get('host', 'localhost'),
 		port = kw.get('port', 3306),
@@ -46,3 +61,6 @@ async def execute(sql, args):
 			raise
 	return affected
 
+#在此处调用文件中的方法进行测试
+if __name__=="__main__":
+	pass
