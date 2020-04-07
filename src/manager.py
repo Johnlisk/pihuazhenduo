@@ -14,22 +14,24 @@ log_config = {
     "backupcount": 20  # log 保留个数
 }
 
-if __name__=="__main__":
-    conf=configparser.ConfigParser()
+if __name__ == "__main__":
+    conf = configparser.ConfigParser()
     conf.read("config.conf")
-    dbhost=conf.get("database","host")
+    dbhost = conf.get("database_onclient", "host")
+    dbconn=conf._sections["database_onclient"]
     print(f"dbhost:{dbhost}")
-    dbconn=psycopg2.connect(**conf.read("config.conf"))
+    dbconn = psycopg2.connect(**dbconn)
     logger = logging.getLogger(name="tornado-logs")
     logger.setLevel('DEBUG')
-    consolehandler=logging.StreamHandler()
-    filehandler=logging.FileHandler(filename="tornado-logs")
+    consolehandler = logging.StreamHandler()
+    filehandler = logging.FileHandler(filename="tornado-logs")
     logger.addHandler(consolehandler)
     logger.addHandler(filehandler)
     logger.info("---------------PHZD backend start----------------")
-    application=tornado.web.Application([(r"/",app.Mainhandler),
-                                         (r"/blog/", app.BlogMainHandler),
-                                         (r"/blog/detail/", app.BlogDetailHandler)],debug=True)
-    application.listen(port=8888,address="0.0.0.0")
+    application = tornado.web.Application([(r"/", app.Mainhandler),
+                                           (r"/blog/", app.BlogMainHandler),
+                                           (r"/blog/detail/", app.BlogDetailHandler),
+                                           (r"/blog/mdtest/", app.MdtestHandler)], debug=True)
+    application.listen(port=8888, address="0.0.0.0")
     tornado.ioloop.IOLoop.current().start()
     logger.info("---------------PHZD backend started----------------")

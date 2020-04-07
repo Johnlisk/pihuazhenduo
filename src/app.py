@@ -1,7 +1,7 @@
 import tornado.web
 import logging
 import datetime
-
+import markdown
 
 class BaseHandler(tornado.web.RequestHandler):
     def set_default_headers(self):
@@ -33,6 +33,8 @@ class BlogMainHandler(BaseHandler):
     def get(self):
         logger = logging.getLogger(name="tornado-logs")
         logger.info("damn")
+        select_sql = """select id,title,filename,simplecontext,user,create_time from pihuazhenduo.articles"""
+        bloglist=[]
         resdict = {
             "pagenum": 10,
             "setpage": 1,
@@ -136,11 +138,11 @@ class BlogDetailHandler(BaseHandler):
         articleid = self.get_query_argument('articleid')
         logger.info(articleid)
         titledict = {1: "奤猫正传", 2: "一名剧本杀瘾君子的自述",
-                     3: "(记录性转载)工作迷思：游戏文本创作中的七十二处女难题",
+                     3: "(记录性转载)工作迷思：游戏文本创作中的七十使二处女难题",
                      4: "我的一个与众不同的女同学", 5: "平衡",
                      6:"C# winform中无边框窗体的移动",
                      7:"NoesisGUI入门及初步使用感想",
-                     8:"使用xlwt导出django admin中查看的数据"}
+                     8:"用xlwt导出django admin中查看的数据"}
         with open(f"static/articles/{articleid}.txt", 'r') as f:
             lines = f.readlines()
             resdict = {
@@ -155,3 +157,24 @@ class BlogDetailHandler(BaseHandler):
                 "context": lines
             }
             self.render("templates/blog.html", resultdict=resdict)
+
+class MdtestHandler(BaseHandler):
+    def get(self):
+        logger = logging.getLogger(name="tornado-logs")
+        logger.info("blogdetail")
+        # article = self.request.query
+
+        with open(f"static/articles/test.md", 'r') as f:
+            lines =markdown.markdown(f.read())
+            resdict = {
+                "articleid": 123,
+                "title": "md测试",
+                "readnum": "1000",
+                "thumbnum": 99,
+                "thumbed": 1,
+                "time": str(datetime.datetime.now()),
+                "user": "jaderabbit",
+                "simplecontext": "这是一个不一般的故事。。。",
+                "context": lines
+            }
+            self.render("templates/blogmd.html", resultdict=resdict)
