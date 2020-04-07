@@ -164,7 +164,7 @@ class MdtestHandler(BaseHandler):
         logger.info("blogdetail")
         # article = self.request.query
 
-        with open(f"static/articles/test.md", 'r') as f:
+        with open(f"static/articles/9.md", 'r') as f:
             lines =markdown.markdown(f.read())
             resdict = {
                 "articleid": 123,
