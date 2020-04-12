@@ -7,7 +7,7 @@ db_conf = {
 	"host": "localhost",
 	"port": 3306,
 	"user": "root",
-	"password": "wrq0729",
+	"password": "wrq0729.",
 	"database": "",
 	"charset": "utf-8",
 	"autocommit": True,
@@ -19,6 +19,7 @@ async def create_pool(loop, **kw):
 	global __pool
 	#使用单独配置的情况，使用这种配置的情况下可以不用kw参数，最终目的是保存配置文件在单独的文件方便部署和维护
 	__pool = await aiomysql.create_pool(**db_conf)
+	'''
 	__pool = await aiomysql.create_pool(
 		host = kw.get('host', 'localhost'),
 		port = kw.get('port', 3306),
@@ -31,6 +32,7 @@ async def create_pool(loop, **kw):
 		minsize = kw.get('minsize', 1),
 		loop = loop
 		)
+	'''
 
 async def select(sql, args, size=None):
 	# sql as 'select ? from ? where ?=?'  args as ['*', 'users', 'id', '5']
