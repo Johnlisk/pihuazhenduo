@@ -5,7 +5,7 @@ import tornado.log as tlog
 import logging
 import app
 import configparser
-import psycopg2
+
 
 log_config = {
     "logfilename": "tornado-logs",  # log 名称
@@ -15,12 +15,9 @@ log_config = {
 }
 
 if __name__ == "__main__":
-    conf = configparser.ConfigParser()
-    conf.read("config.conf")
-    dbhost = conf.get("database_onclient", "host")
-    dbconn=conf._sections["database_onclient"]
-    print(f"dbhost:{dbhost}")
-    dbconn = psycopg2.connect(**dbconn)
+
+
+
     logger = logging.getLogger(name="tornado-logs")
     logger.setLevel('DEBUG')
     consolehandler = logging.StreamHandler()
