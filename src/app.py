@@ -4,6 +4,9 @@ import datetime
 import markdown
 
 from utils import DatabaseUtil
+from markdown.extensions import Extension
+from markdown.extensions.fenced_code import FencedCodeExtension
+from markdown.extensions.tables import TableExtension
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -36,7 +39,7 @@ class BlogMainHandler(BaseHandler):
     def get(self):
         logger = logging.getLogger(name="tornado-logs")
         logger.info("damn")
-        bloglist=[]
+        bloglist = []
         with DatabaseUtil() as cur:
             select_sql = """select id,title,filename,simplecontext,user,create_time,type from pihuazhenduo.articles"""
             cur.execute(select_sql)
@@ -48,9 +51,9 @@ class BlogMainHandler(BaseHandler):
                         "articleid": data[0],
                         "title": data[1],
                         "time": str(data[5])[:19],
-                        "user":  data[4],
+                        "user": data[4],
                         "simplecontext": data[3] if data[3] else '',
-                        "type":data[6]
+                        "type": data[6]
                     }
                 )
         resdict = {
@@ -62,6 +65,39 @@ class BlogMainHandler(BaseHandler):
 
 
 class BlogDetailHandler(BaseHandler):
+    def gettxt(self, filename, articleid, title, time, user, simplecontext):
+        with open(f"static/articles/{filename}.txt", 'r') as f:
+            lines = f.readlines()
+            resdict = {
+                "articleid": articleid,
+                "title": title,
+                "readnum": "1000",
+                "thumbnum": 99,
+                "thumbed": 1,
+                "time": time,
+                "user": user,
+                "simplecontext": simplecontext,
+                "context": lines
+            }
+            self.render("templates/blog.html", resultdict=resdict)
+
+    def getmd(self, filename, articleid, title, time, user, simplecontext):
+        with open(f"static/articles/{filename}.md", 'r') as f:
+            lines = markdown.markdown(f.read(), extensions=['markdown.extensions.fenced_code',
+                                                            'markdown.extensions.tables']).encode("utf-8")
+            resdict = {
+                "articleid": articleid,
+                "title": title,
+                "readnum": "1000",
+                "thumbnum": 99,
+                "thumbed": 1,
+                "time": time,
+                "user": user,
+                "simplecontext": simplecontext,
+                "context": lines
+            }
+            self.render("templates/blogmd.html", resultdict=resdict)
+
     def get(self):
         logger = logging.getLogger(name="tornado-logs")
         logger.info("blogdetail")
@@ -72,16 +108,21 @@ class BlogDetailHandler(BaseHandler):
             select_sql = """select title,filename,simplecontext,user,create_time,type 
                             from pihuazhenduo.articles
                             where id =%s"""
-            plist=[articleid,]
-            cur.execute(select_sql,plist)
+            plist = [articleid, ]
+            cur.execute(select_sql, plist)
             res = cur.fetchone()
 
-        titledict = {1: "奤猫正传", 2: "一名剧本杀瘾君子的自述",
-                     3: "(记录性转载)工作迷思：游戏文本创作中的七十使二处女难题",
-                     4: "我的一个与众不同的女同学", 5: "平衡",
-                     6: "C# winform中无边框窗体的移动",
-                     7: "NoesisGUI入门及初步使用感想",
-                     8: "用xlwt导出django admin中查看的数据"}
+            articlethings = {"filename": articleid,
+                             "articleid": articleid,
+                             "title": res[0],
+                             "time": str(res[4])[:19],
+                             "user": res[3],
+                             "simplecontext":res[2]}
+            if res[5]==0:
+                self.gettxt(**articlethings)
+            else:
+                self.getmd(**articlethings)
+
         with open(f"static/articles/{articleid}.txt", 'r') as f:
             lines = f.readlines()
             resdict = {
@@ -91,7 +132,7 @@ class BlogDetailHandler(BaseHandler):
                 "thumbnum": 99,
                 "thumbed": 1,
                 "time": str(res[4])[:19],
-                "user":res[3],
+                "user": res[3],
                 "simplecontext": res[2],
                 "context": lines
             }
@@ -105,7 +146,8 @@ class MdtestHandler(BaseHandler):
         # article = self.request.query
 
         with open(f"static/articles/9.md", 'r') as f:
-            lines = markdown.markdown(f.read())
+            lines = markdown.markdown(f.read(), extensions=['markdown.extensions.fenced_code',
+                                                            'markdown.extensions.tables']).encode("utf-8")
             resdict = {
                 "articleid": 123,
                 "title": "md测试",
