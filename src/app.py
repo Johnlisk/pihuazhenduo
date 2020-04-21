@@ -41,7 +41,9 @@ class BlogMainHandler(BaseHandler):
         logger.info("damn")
         bloglist = []
         with DatabaseUtil() as cur:
-            select_sql = """select id,title,filename,simplecontext,user,create_time,type from pihuazhenduo.articles"""
+            select_sql = """select id,title,filename,simplecontext,user,create_time,type 
+                            from pihuazhenduo.articles 
+                            order by create_time desc"""
             cur.execute(select_sql)
             res = cur.fetchall()
             print(res)
