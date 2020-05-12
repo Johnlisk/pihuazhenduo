@@ -15,9 +15,6 @@ log_config = {
 }
 
 if __name__ == "__main__":
-
-
-
     logger = logging.getLogger(name="tornado-logs")
     logger.setLevel('DEBUG')
     consolehandler = logging.StreamHandler()
