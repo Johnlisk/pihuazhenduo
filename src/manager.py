@@ -1,5 +1,7 @@
 import tornado.web
 import tornado.ioloop
+import tornado.httpserver as httpserver
+import tornado.ioloop as ioloop
 import tornado.log as tlog
 
 import logging
@@ -26,6 +28,10 @@ if __name__ == "__main__":
                                            (r"/blog/", app.BlogMainHandler),
                                            (r"/blog/detail/", app.BlogDetailHandler),
                                            (r"/blog/mdtest/", app.MdtestHandler)], debug=True)
-    application.listen(port=8888, address="0.0.0.0")
-    tornado.ioloop.IOLoop.current().start()
+    http_server=httpserver.HTTPServer(application)
+    http_server.bind(port=8888,address="0.0.0.0")
+    http_server.start(2)
+    ioloop.IOLoop.current().start()
+    # application.listen(port=8888, address="0.0.0.0")
+    # tornado.ioloop.IOLoop.current().start()
     logger.info("---------------PHZD backend started----------------")

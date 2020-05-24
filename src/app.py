@@ -3,7 +3,7 @@ import logging
 import datetime
 import markdown
 
-from utils import DatabaseUtil
+from utils import DatabaseUtil,RedisUtil
 from markdown.extensions import Extension
 from markdown.extensions.fenced_code import FencedCodeExtension
 from markdown.extensions.tables import TableExtension
@@ -34,12 +34,11 @@ class Mainhandler(BaseHandler):
         }
         self.render("templates/main.html", resultdict=resdict)
 
-
-class BlogMainHandler(BaseHandler):
+class TagListHandler(BaseHandler):
     def get(self):
         logger = logging.getLogger(name="tornado-logs")
-        logger.info("damn")
-        bloglist = []
+        logger.info("TagListHandler")
+        taglist=[]
         with DatabaseUtil() as cur:
             select_sql = """select id,title,filename,simplecontext,user,create_time,type 
                             from pihuazhenduo.articles 
@@ -48,8 +47,56 @@ class BlogMainHandler(BaseHandler):
             res = cur.fetchall()
             print(res)
             for data in res:
+                taglist.append(
+                    {
+                        "articleid": data[0],
+                        "title": data[1],
+                        "time": str(data[5])[:19],
+                        "user": data[4],
+                        "simplecontext": data[3] if data[3] else '',
+                        "type": data[6]
+                    }
+                )
+        resdict = {
+            "pagenum": 10,
+            "setpage": 1,
+            "bloglist": taglist
+        }
+        self.render("templates/bloglist.html", resultdict=resdict)
+
+
+
+
+
+class BlogMainHandler(BaseHandler):
+    def gettag(self):
+        with DatabaseUtil() as cur:
+            select_sql = """
+                select id,name,type
+                  from pihuazhenduo.articles"""
+            cur.execute(select_sql)
+            res = cur.fetchall()
+
+
+
+        pass
+
+    def get(self):
+        logger = logging.getLogger(name="tornado-logs")
+        logger.info("damn")
+        tagid = self.get_query_argument('articleid')
+        bloglist = []
+        with DatabaseUtil() as cur,RedisUtil(1) as redis:
+            select_sql = """
+                select id,title,filename,simplecontext,user,create_time,type 
+                  from pihuazhenduo.articles 
+              order by create_time desc"""
+            cur.execute(select_sql)
+            res = cur.fetchall()
+            for data in res:
                 bloglist.append(
                     {
+                        "pv":redis.hget("article_pv",data[0]),
                         "articleid": data[0],
                         "title": data[1],
                         "time": str(data[5])[:19],
@@ -106,6 +153,9 @@ class BlogDetailHandler(BaseHandler):
         # article = self.request.query
         articleid = self.get_query_argument('articleid')
         logger.info(articleid)
+        with RedisUtil(1) as redis:
+            redis.hincrby("article_pv",articleid,1)
+
         with DatabaseUtil() as cur:
             select_sql = """select title,filename,simplecontext,user,create_time,type 
                             from pihuazhenduo.articles
@@ -124,21 +174,6 @@ class BlogDetailHandler(BaseHandler):
                 self.gettxt(**articlethings)
             else:
                 self.getmd(**articlethings)
-
-        with open(f"static/articles/{articleid}.txt", 'r') as f:
-            lines = f.readlines()
-            resdict = {
-                "articleid": articleid,
-                "title": res[0],
-                "readnum": "1000",
-                "thumbnum": 99,
-                "thumbed": 1,
-                "time": str(res[4])[:19],
-                "user": res[3],
-                "simplecontext": res[2],
-                "context": lines
-            }
-            self.render("templates/blog.html", resultdict=resdict)
 
 
 class MdtestHandler(BaseHandler):
