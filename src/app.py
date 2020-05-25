@@ -76,15 +76,12 @@ class BlogMainHandler(BaseHandler):
                   from pihuazhenduo.articles"""
             cur.execute(select_sql)
             res = cur.fetchall()
-
-
-
         pass
 
     def get(self):
         logger = logging.getLogger(name="tornado-logs")
         logger.info("damn")
-        tagid = self.get_query_argument('articleid')
+        # tagid = self.get_query_argument('articleid')
         bloglist = []
         with DatabaseUtil() as cur,RedisUtil(1) as redis:
             select_sql = """
@@ -96,7 +93,7 @@ class BlogMainHandler(BaseHandler):
             for data in res:
                 bloglist.append(
                     {
-                        "pv":redis.hget("article_pv",data[0]),
+                        "pv":redis.hget("article_pv",data[0]) if redis.hget("article_pv",data[0]) else 0,
                         "articleid": data[0],
                         "title": data[1],
                         "time": str(data[5])[:19],
@@ -112,6 +109,38 @@ class BlogMainHandler(BaseHandler):
         }
         self.render("templates/bloglist.html", resultdict=resdict)
 
+class AboutmeHandler(BaseHandler):
+    def getmd(self, filename, articleid, title, time, user, simplecontext):
+        with open(f"static/articles/{filename}.md", 'r') as f:
+            lines = markdown.markdown(f.read(), extensions=['markdown.extensions.fenced_code',
+                                                            'markdown.extensions.tables']).encode("utf-8")
+            resdict = {
+                "articleid": articleid,
+                "title": title,
+                "readnum": "1000",
+                "thumbnum": 99,
+                "thumbed": 1,
+                "time": time,
+                "user": user,
+                "simplecontext": simplecontext,
+                "context": lines
+            }
+            self.render("templates/blogmd.html", resultdict=resdict)
+
+    def get(self):
+        logger = logging.getLogger(name="tornado-logs")
+        logger.info("about me")
+        # article = self.request.query
+        with RedisUtil(1) as redis:
+            redis.hincrby("article_pv","aboutme",1)
+
+        articlethings = {"filename": "aboutme",
+                         "articleid": "aboutme",
+                         "title": "关于作者",
+                         "time": "2020-05-24 11:24:37",
+                         "user": "jaderabbit",
+                         "simplecontext": "自我介绍"}
+        self.getmd(**articlethings)
 
 class BlogDetailHandler(BaseHandler):
     def gettxt(self, filename, articleid, title, time, user, simplecontext):
