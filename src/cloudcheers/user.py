@@ -20,3 +20,5 @@ class Cloudcheers(tornado.web.RequestHandler):
         type=self.get_argument("type")
 
         return return_dict
+
+
