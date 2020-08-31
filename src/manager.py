@@ -26,6 +26,7 @@ if __name__ == "__main__":
     logger.addHandler(filehandler)
     logger.info("---------------PHZD backend start----------------")
     application = tornado.web.Application([(r"/", app.Mainhandler),
+                                           (r"/receive", app.recvhandler),
                                            (r"/blog/", app.BlogMainHandler),
                                            (r"/blog/aboutme/", app.AboutmeHandler),
                                            (r"/blog/detail/", app.BlogDetailHandler),
