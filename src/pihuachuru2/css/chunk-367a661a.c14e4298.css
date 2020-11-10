@@ -1,0 +1,108 @@
+[data-v-4ccca520]:export {
+    greyColor: #eee;
+    blueColor: #4199ff
+}
+
+.apply[data-v-4ccca520] {
+    height: 100%;
+    overflow-y: auto;
+    background-color: #fff;
+    font-size: .3rem;
+    color: #333
+}
+
+.apply .popup[data-v-4ccca520] {
+    text-align: center;
+    width: 5rem;
+    padding: .4rem .3rem
+}
+
+.apply .popup p[data-v-4ccca520] {
+    font-weight: 600;
+    margin-top: .3rem;
+    font-size: .32rem
+}
+
+.apply .popup .btn[data-v-4ccca520] {
+    margin-top: .3rem;
+    display: inline-block;
+    background-color: #4199ff;
+    color: #fff;
+    font-size: .32rem;
+    border-radius: .2rem;
+    padding: .2rem .5rem
+}
+
+.apply .field-wrap[data-v-4ccca520] {
+    background-color: #fff;
+    padding: .15rem .3rem
+}
+
+.apply .field-wrap .title[data-v-4ccca520] {
+    font-weight: 520
+}
+
+.apply .field-wrap .title.required label[data-v-4ccca520]:before {
+    content: "* ";
+    color: #dd504f
+}
+
+.apply .field-wrap .field-item[data-v-4ccca520] {
+    padding: .15rem 0
+}
+
+.apply .field-wrap .field-item label[data-v-4ccca520] {
+    font-size: .28rem;
+    display: block;
+    color: grey
+}
+
+.apply .field-wrap .field-item .ipt[data-v-4ccca520] {
+    display: flex;
+    align-items: center;
+    margin-top: .15rem;
+    background-color: #f5f5f5
+}
+
+.apply .field-wrap .field-item .ipt textarea[data-v-4ccca520] {
+    flex: 1;
+    width: 100%;
+    background-color: #f5f5f5;
+    height: 2rem;
+    border: none;
+    padding: .15rem;
+    font-size: .3rem
+}
+
+.apply .field-wrap .field-item .ipt i[data-v-4ccca520] {
+    font-size: .26rem;
+    padding: 0 .15rem
+}
+
+.apply .btn-wrap[data-v-4ccca520] {
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+    width: 100%;
+    text-align: center;
+    display: flex
+}
+
+.apply .btn-wrap .btn[data-v-4ccca520] {
+    width: 100%;
+    height: .88rem;
+    line-height: .88rem;
+    color: #fff
+}
+
+.apply .btn-wrap .bgc-deepblue[data-v-4ccca520] {
+    background-color: #3482df
+}
+
+.apply .btn-wrap .bgc-blue[data-v-4ccca520] {
+    background-color: #5d9be6
+}
+
+.apply .btn-wrap .bgc-black[data-v-4ccca520] {
+    background-color: #b3b3b3
+}

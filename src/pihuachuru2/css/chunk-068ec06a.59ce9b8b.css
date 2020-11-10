@@ -1,0 +1,72 @@
+[data-v-2b1189d2]:export {
+    greyColor: #eee;
+    blueColor: #4199ff
+}
+
+.index[data-v-2b1189d2] {
+    height: 100%;
+    overflow-y: auto;
+    background-color: #fff;
+    font-size: .32rem;
+    color: #333
+}
+
+.index .content[data-v-2b1189d2] {
+    padding: .3rem .3rem 1rem
+}
+
+.index p[data-v-2b1189d2] {
+    margin-bottom: .2rem;
+    line-height: .4rem
+}
+
+.index p[data-v-2b1189d2]:first-child {
+    font-weight: 700
+}
+
+.index .tip-wrap[data-v-2b1189d2] {
+    margin-top: .2rem;
+    display: flex;
+    align-items: center
+}
+
+.index .tip-wrap .tip[data-v-2b1189d2] {
+    margin-left: .2rem;
+    font-size: .28rem;
+    color: #4199ff
+}
+
+.index .btns[data-v-2b1189d2] {
+    background-color: #fff;
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    z-index: 10
+}
+
+.index .btns .btn[data-v-2b1189d2] {
+    display: inline-block;
+    width: 2.7rem;
+    text-align: center;
+    border-radius: .1rem;
+    border: 1px solid #4199ff;
+    color: #4199ff;
+    padding: .2rem 0;
+    font-size: .3rem
+}
+
+.index .btns .btn[data-v-2b1189d2]:first-child {
+    margin-right: .3rem
+}
+
+.index .btns .btn.blue[data-v-2b1189d2] {
+    background-color: #4199ff;
+    color: #fff
+}
+
+.index .btns .btn.grey[data-v-2b1189d2] {
+    background-color: #ccc;
+    color: #fff;
+    border: 1px solid #ccc
+}

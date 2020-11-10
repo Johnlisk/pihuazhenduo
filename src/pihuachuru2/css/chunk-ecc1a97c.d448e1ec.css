@@ -1,0 +1,96 @@
+[data-v-03686c87]:export {
+    greyColor: #eee;
+    blueColor: #4199ff
+}
+
+.index[data-v-03686c87] {
+    height: 100%;
+    background-color: #f7f5f6;
+    font-size: .32rem;
+    color: #333;
+    padding-bottom: 1rem;
+    display: flex;
+    flex-direction: column
+}
+
+ul[data-v-03686c87] {
+    flex: 1;
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 1rem
+}
+
+li[data-v-03686c87] {
+    padding: 0 .3rem;
+    background-color: #fff;
+    margin-bottom: .2rem
+}
+
+li .list-item-info p[data-v-03686c87] {
+    justify-content: space-between;
+    font-size: .28rem;
+    display: flex;
+    align-items: center;
+    font-weight: 520;
+    padding: .24rem 0
+}
+
+li .list-item-info p[data-v-03686c87]:nth-child(-n+2) {
+    border-bottom: 1px solid hsla(0, 0%, 92.2%, .7)
+}
+
+li .list-item-info p span[data-v-03686c87] {
+    font-size: .28rem
+}
+
+li .list-item-info p .bgc-lightblue[data-v-03686c87] {
+    color: #99daff
+}
+
+li .list-item-info p .bgc-blue[data-v-03686c87] {
+    color: #01a3ff
+}
+
+li .list-item-info p .bgc-yellow[data-v-03686c87] {
+    color: #f3a730
+}
+
+li .list-item-info p .bgc-red[data-v-03686c87] {
+    color: #ed5560
+}
+
+li .list-item-info p .bgc-green[data-v-03686c87] {
+    color: #00bc9d
+}
+
+li i[data-v-03686c87] {
+    font-size: .28rem
+}
+
+.btn-wrap[data-v-03686c87] {
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+    width: 100%;
+    text-align: center;
+    display: flex
+}
+
+.btn-wrap .btn[data-v-03686c87] {
+    width: 100%;
+    height: .88rem;
+    line-height: .88rem;
+    color: #fff
+}
+
+.btn-wrap .bgc-deepblue[data-v-03686c87] {
+    background-color: #3482df
+}
+
+.btn-wrap .bgc-blue[data-v-03686c87] {
+    background-color: #4199ff
+}
+
+.btn-wrap .bgc-black[data-v-03686c87] {
+    background-color: #b3b3b3
+}
