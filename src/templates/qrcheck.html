@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+<div id="app">
+  <button v-on:click="openscan" style="width:300px;height:300px">出</button>
+  <button v-on:click="inscan" style="width:300px;height:300px">入</button>
+  <button v-on:click="openscan2" style="width:300px;height:300px">出2</button>
+  <button v-on:click="inscan2" style="width:300px;height:300px">入2</button>
+</div>
+
+</body>
+
+  <!-- import Vue before Element -->
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <!-- import JavaScript -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+            data: function() {
+              return { access_token: '',
+                    jsapi_ticket: '', }
+            },
+            computed: {
+
+            },
+            methods: {
+                open(jid, is_pass, videoMd5, scopeIndex) {
+
+                },
+                stopUse(jid, video_md5, scopeIndex) {
+
+                },
+                handleSizeChange: function (size) {
+                    this.pagesize = size
+                },
+                handleCurrentChange: function (currentPage) {
+                    let vm = this;
+                    vm.$set(vm.$data, 'videoPath', '');
+                    vm.currentPage = currentPage
+                },
+                openscan: function (){
+                    // alert('scan in');
+                    wx.scanQRCode({
+                        needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                        scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+                        success: function (res) {
+                        var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+                    }
+                    });
+                    // alert('scan end');
+                    window.location.href = "http://www.pihuazhenduo.com/pihuachuru/";
+                    // this.("http://www.pihuazhenduo.com/pihuachuru/")
+
+                },
+                inscan: function (){
+                    // alert('scan in');
+                    wx.scanQRCode({
+                        needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                        scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+                        success: function (res) {
+                        var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+                    }
+                    });
+                    // alert('scan end');
+                    window.location.href = "http://www.pihuazhenduo.com/pihuachuru/pihuain.html";
+                    // this.("http://www.pihuazhenduo.com/pihuachuru/")
+
+                },
+              openscan2: function (){
+                    // alert('scan in');
+                    wx.scanQRCode({
+                        needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                        scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+                        success: function (res) {
+                        var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+                    }
+                    });
+                    // alert('scan end');
+                    window.location.href = "http://www.pihuazhenduo.com/pihuachuru/pihuaout.html";
+                    // this.("http://www.pihuazhenduo.com/pihuachuru/")
+
+                },
+                inscan2: function (){
+                    // alert('scan in');
+                    wx.scanQRCode({
+                        needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                        scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+                        success: function (res) {
+                        var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+                    }
+                    });
+                    // alert('scan end');
+                    window.location.href = "http://www.pihuazhenduo.com/pihuachuru/pihuainyu.html";
+                    // this.("http://www.pihuazhenduo.com/pihuachuru/")
+
+                },
+                init() {
+                    this.access_token='{{resultdict['access_token']}}';
+                    this.jsapi_ticket='{{resultdict['jsapi_ticket']}}';
+                    wx.config({
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId: 'wxf6f182e7b47ce14f', // 必填，公众号的唯一标识
+                        timestamp: {{resultdict['timestamp']}}, // 必填，生成签名的时间戳
+                        nonceStr: '{{resultdict['noncestr']}}', // 必填，生成签名的随机串
+                        signature: '{{resultdict['enc']}}',// 必填，签名，见附录1
+                        jsApiList: ['scanQRCode'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                    });
+
+
+                }
+            },
+            created: function created() {
+                // alert(location.href.split('#')[0]);
+
+                //this.init_video_token();
+                this.init();
+            }
+    })
+  </script>
+</html>

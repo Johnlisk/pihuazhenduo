@@ -25,12 +25,16 @@ if __name__ == "__main__":
     logger.addHandler(consolehandler)
     logger.addHandler(filehandler)
     logger.info("---------------PHZD backend start----------------")
-    application = tornado.web.Application([(r"/", app.Mainhandler),
-                                           (r"/receive", app.recvhandler),
-                                           (r"/blog/", app.BlogMainHandler),
-                                           (r"/blog/aboutme/", app.AboutmeHandler),
-                                           (r"/blog/detail/", app.BlogDetailHandler),
-                                           (r"/blog/mdtest/", app.MdtestHandler)], debug=True)
+    application = tornado.web.Application([
+        (r"/", app.Mainhandler),
+        (r"/MP_verify_E7ezYIkLHQC2tzyW.txt", app.txthandler),
+        # (r"/receive", app.recvhandler),
+        # (r"/blog/", app.BlogMainHandler),
+        # (r"/blog/aboutme/", app.AboutmeHandler),
+        # (r"/blog/detail/", app.BlogDetailHandler),
+        # (r"/blog/mdtest/", app.MdtestHandler),
+        (r"/qrstart", app.wxsignatureHandler)
+    ], debug=True)
     # http_server=httpserver.HTTPServer(application)
     # http_server.bind(port=8888,address="0.0.0.0")
     # http_server.start(2)
